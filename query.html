@@ -2,221 +2,284 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Yummy Query</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yummy | Query Form</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
     }
 
     body {
-      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;color: #333;
-      padding: 20px;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.58)),
+        url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1950&q=80")
+        no-repeat center center / cover fixed;
+      color: #333;
+      padding: 90px 20px 40px;
       font-size: 16px;
       line-height: 1.6;
     }
 
-    /* Animations */
     @keyframes slideDown {
-      0% { transform: translateY(-100%); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     @keyframes fadeInScale {
-      0% { transform: scale(0.95); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      from { transform: scale(0.97); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     @keyframes popIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
-    .navmenu {
-      background-color: #333;
-      overflow: hidden;
+    .query-nav {
       width: 100%;
       position: fixed;
       top: 0;
+      left: 0;
       z-index: 1000;
-      animation: slideDown 0.8s ease-out;
+      background: #222;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+      animation: slideDown 0.6s ease-out;
     }
 
-    .navmenu ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
+    .query-nav .nav-inner {
+      width: min(1100px, 100%);
+      min-height: 62px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
     }
 
-    .navmenu li {
-      float: left;
-    }
-
-    .navmenu li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
+    .query-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #fff;
       text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 4px;
+      transition: background 0.2s ease;
     }
 
-    .navmenu li a:hover {
-      background-color: #111;
+    .query-nav a:hover {
+      background: #ce1212;
     }
 
     .content {
-      margin-top: 70px;
+      width: min(700px, 100%);
+      margin: 20px auto 24px;
       text-align: center;
+      animation: fadeInScale 0.8s ease both;
     }
 
-    h1 ,p{
-      color: #f1f7f2;
-    }
-
-    form {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      width: 300px;
-      margin: 20px auto;
-      animation: fadeInScale 1s ease forwards;
-    }
-
-    form label {
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    form input, select {
-      width: 95%;
-      padding: 8px;
+    .content h1 {
+      color: #fff;
+      font-size: clamp(28px, 5vw, 40px);
+      line-height: 1.2;
       margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
     }
 
-    form button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px;
+    .content p {
+      color: #f1f1f1;
+      margin: 0 auto;
+    }
+
+    .query-card {
+      width: min(620px, 100%);
+      margin: 0 auto;
+      padding: 28px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+      animation: fadeInScale 0.9s ease both;
+    }
+
+    .query-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .query-form input,
+    .query-form select,
+    .query-form textarea {
+      width: 100%;
+      min-width: 0;
+      padding: 12px 13px;
+      border: 1px solid #d6d6d6;
+      border-radius: 6px;
+      background: #fff;
+      color: #333;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .query-form input:focus,
+    .query-form select:focus,
+    .query-form textarea:focus {
+      border-color: #ce1212;
+      box-shadow: 0 0 0 3px rgba(206, 18, 18, 0.1);
+    }
+
+    .query-form .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .query-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .form-actions button {
+      min-width: 120px;
+      padding: 11px 20px;
+      border: 0;
+      border-radius: 6px;
+      color: #fff;
+      background: #ce1212;
+      font-size: 15px;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s, background 0.2s;
     }
 
-    form button:hover {
-      background-color: #45a049;
-      transform: scale(1.05);
+    .form-actions button:hover {
+      background: #a90f0f;
+      transform: translateY(-2px);
     }
 
-    button[type="reset"] {
-      background-color: #f44336;
-      margin-left: 10px;
+    .form-actions button[type="reset"] {
+      background: #555;
+    }
+
+    .form-actions button[type="reset"]:hover {
+      background: #333;
     }
 
     #results {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #444749;
-      border: 1px solid #000000;
-      border-radius: 5px;
-      width: 300px;
+      width: min(620px, 100%);
+      margin: 18px auto 0;
+      padding: 14px 18px;
+      border-radius: 8px;
+      background: rgba(30, 30, 30, 0.88);
+      color: #fff;
       text-align: center;
-      margin-left: auto;
-      margin-right: auto;
+      overflow-wrap: anywhere;
     }
 
     #results p {
+      color: #fff;
       margin: 0;
-      animation: popIn 0.5s ease-out;
     }
 
     #results p.success {
-      color: rgb(235, 241, 235);
-    }
-
-    #results p.error {
-      color: red;
+      color: #d9f7df;
+      animation: popIn 0.35s ease-out;
     }
 
     @media (max-width: 600px) {
-      form {
-        width: 100%;
-        padding: 10px;
-      }
-
-      .navmenu li {
-        float: none;
-      }
-    }
-
-    @media (min-width: 1200px) {
       body {
-        font-size: 18px;
+        padding: 82px 14px 28px;
       }
 
-      form {
-        width: 400px;
+      .query-card {
+        padding: 20px 16px;
+      }
+
+      .query-form {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .query-form .full-width,
+      .form-actions {
+        grid-column: 1;
       }
     }
   </style>
 </head>
+
 <body>
-  <div>
-    <nav class="navmenu">
-      <ul>
-        <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
-      </ul>
-    </nav>
-  </div>
+  <nav class="query-nav">
+    <div class="nav-inner">
+      <a href="index.html"><i class="fa fa-home"></i> Home</a>
+    </div>
+  </nav>
 
-  <div class="content">
-    <h1>Yummy Query Form</h1>
-    <p>Welcome to the Yummy Query Form. Please fill out the form below with your details and query.</p>
-  </div>
+  <main>
+    <div class="content">
+      <h1>Yummy Query Form</h1>
+      <p>Welcome to the Yummy Query Form. Please fill out the form below with your details and query.</p>
+    </div>
 
-  <form id="queryForm">
-    <input type="text" placeholder="Enter your name" id="name" name="name" required>
-    <input type="email" placeholder="Enter your email" id="email" name="email" required>
-    <input type="text" placeholder="Enter your phone number" id="phone" name="phone" required>
-    <input type="text" placeholder="Enter your address" id="address" name="address" required>
-    <input type="text" placeholder="Enter your city" id="city" name="city" required>
-    <input type="text" placeholder="Enter your state" id="state" name="state" required>
-    <select id="category" name="category" required>
-      <option value="">Select a category</option>
-      <option value="general">General Inquiry</option>
-      <option value="feedback">Feedback</option>
-      <option value="support">Support</option>
-      <option value="other">Other</option>
-    </select>
-    <input type="text" placeholder="Enter your query" id="query" name="query" required>
-    <button type="submit">Submit</button>
-    <button type="reset">Reset</button>
-  </form>
+    <div class="query-card">
+      <form id="queryForm" class="query-form">
+        <input type="text" placeholder="Enter your name" id="name" name="name" autocomplete="name" required>
+        <input type="email" placeholder="Enter your email" id="email" name="email" autocomplete="email" required>
+        <input type="tel" placeholder="Enter your phone number" id="phone" name="phone" autocomplete="tel" required>
+        <input type="text" placeholder="Enter your address" id="address" name="address" autocomplete="street-address" required>
+        <input type="text" placeholder="Enter your city" id="city" name="city" autocomplete="address-level2" required>
+        <input type="text" placeholder="Enter your state" id="state" name="state" autocomplete="address-level1" required>
 
-  <div id="results">
-    <p id="resultMessage">Your query will appear here after submission.</p>
-  </div>
+        <select id="category" name="category" class="full-width" required>
+          <option value="">Select a category</option>
+          <option value="general">General Inquiry</option>
+          <option value="feedback">Feedback</option>
+          <option value="support">Support</option>
+          <option value="other">Other</option>
+        </select>
+
+        <textarea id="query" name="query" class="full-width" placeholder="Enter your query" required></textarea>
+
+        <div class="form-actions">
+          <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="results" aria-live="polite">
+      <p id="resultMessage">Your query will appear here after submission.</p>
+    </div>
+  </main>
 
   <script>
-    document.getElementById('queryForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const query = document.getElementById('query').value;
-      const resultBox = document.getElementById('results');
-      resultBox.innerHTML = `<p class="success">You queried: ${query}</p>`;
+    const queryForm = document.getElementById("queryForm");
+    const resultBox = document.getElementById("results");
 
-      const resultText = resultBox.querySelector("p");
-      resultText.style.animation = 'none';
-      resultText.offsetHeight; // trigger reflow
-      resultText.style.animation = null;
+    queryForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const queryText = document.getElementById("query").value.trim();
+      const message = document.createElement("p");
+      message.className = "success";
+      message.textContent = "You queried: " + queryText;
+
+      resultBox.replaceChildren(message);
     });
 
-    document.getElementById('queryForm').addEventListener('reset', function() {
-      document.getElementById('results').innerHTML = '<p id="resultMessage">Your query will appear here after submission.</p>';
+    queryForm.addEventListener("reset", function () {
+      resultBox.innerHTML = "<p id='resultMessage'>Your query will appear here after submission.</p>";
     });
   </script>
 </body>
